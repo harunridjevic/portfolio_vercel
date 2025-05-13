@@ -1,8 +1,7 @@
 "use client"
 
 import type React from "react"
-
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -11,18 +10,20 @@ import { useTranslation } from "./language-context"
 import { useTheme } from "next-themes"
 
 export default function Contact() {
-  const [formState, setFormState] = useState({
-    name: "",
-    email: "",
-    message: "",
-  })
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isSubmitted, setIsSubmitted] = useState(false)
   const { t } = useTranslation()
   const { resolvedTheme } = useTheme()
-  const isDark = resolvedTheme === "dark"
+  const [mounted, setMounted] = useState(false)
+  const [formState, setFormState] = useState({ name: "", email: "", message: "" })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSubmitted, setIsSubmitted] = useState(false)
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target
     setFormState((prev) => ({ ...prev, [name]: value }))
   }
@@ -31,19 +32,22 @@ export default function Contact() {
     e.preventDefault()
     setIsSubmitting(true)
 
-    // Simulate form submission
+    // Simulated delay for submission
     await new Promise((resolve) => setTimeout(resolve, 1500))
 
     setIsSubmitting(false)
     setIsSubmitted(true)
     setFormState({ name: "", email: "", message: "" })
 
-    // Reset success message after 5 seconds
     setTimeout(() => setIsSubmitted(false), 5000)
   }
 
+  if (!mounted) return null
+
+  const isDark = resolvedTheme === "dark"
+
   return (
-    <section id="contact" className={isDark ? "py-24 bg-gray-900" : "py-24"}>
+    <section id="contact" className={`py-24 ${isDark ? "bg-gray-900" : "bg-white"}`}>
       <div className="container px-4 md:px-6">
         <div className="max-w-2xl mx-auto text-center mb-12">
           <h2 className="text-3xl font-bold mb-4">{t("getInTouchHeading")}</h2>
@@ -52,7 +56,9 @@ export default function Contact() {
 
         <div className="max-w-md mx-auto">
           <div
-            className={`${isDark ? "bg-gray-800" : "bg-white"} rounded-xl shadow-sm border ${isDark ? "border-gray-700" : ""} p-6`}
+            className={`rounded-xl shadow-sm border p-6 ${
+              isDark ? "bg-gray-800 border-gray-700" : "bg-white"
+            }`}
           >
             {isSubmitted ? (
               <div className="text-center py-8">
@@ -109,9 +115,7 @@ export default function Contact() {
                 </div>
 
                 <Button type="submit" className="w-full" disabled={isSubmitting}>
-                  {isSubmitting ? (
-                    <>{t("sending")}</>
-                  ) : (
+                  {isSubmitting ? t("sending") : (
                     <>
                       <Send className="h-4 w-4 mr-2" />
                       {t("sendMessage")}
@@ -122,11 +126,11 @@ export default function Contact() {
                 <div className="text-center text-sm text-muted-foreground mt-4">
                   <p>{t("orEmailMe")}</p>
                   <a
-                    href="mailto:your.email@example.com"
+                    href="mailto:harunridjevic@gmail.com"
                     className="flex items-center justify-center gap-1 text-primary hover:underline mt-1"
                   >
                     <Mail className="h-3 w-3" />
-                    your.email@example.com
+                    harunridjevic@gmail.com
                   </a>
                 </div>
               </form>

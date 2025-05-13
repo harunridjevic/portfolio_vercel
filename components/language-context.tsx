@@ -32,8 +32,8 @@ const translations: Translations = {
     bs: "Zdravo, ja sam",
   },
   createMeaningful: {
-    en: "I create meaningful projects around the world",
-    bs: "Stvaram značajne projekte širom svijeta",
+    en: "I create full-stack solutions for people around the world",
+    bs: "Stvaram full-stack rješenja za ljude širom svijeta",
   },
   exploreProjects: {
     en: "Explore My Projects",
@@ -49,8 +49,8 @@ const translations: Translations = {
     bs: "Moji projekti širom svijeta",
   },
   exploreGithub: {
-    en: "Explore my GitHub projects positioned on this interactive map based on where they were created or their target audience.",
-    bs: "Istražite moje GitHub projekte pozicionirane na ovoj interaktivnoj mapi na osnovu mjesta gdje su kreirani ili njihove ciljne publike.",
+    en: "Explore my GitHub projects positioned on this interactive map based on where the client was from or where the audience is targeted.",
+    bs: "Istražite moje GitHub projekte postavljene na ovoj interaktivnoj mapi prema lokaciji klijenta ili gdje je publika targetirana.",
   },
   projectLocations: {
     en: "Project Locations",
@@ -66,16 +66,16 @@ const translations: Translations = {
     bs: "O meni",
   },
   aboutText1: {
-    en: "Hello! I'm a passionate developer who loves creating meaningful projects that solve real-world problems. My journey in tech has taken me across different parts of the world, which has greatly influenced my perspective and approach to development.",
-    bs: "Zdravo! Ja sam strastveni programer koji voli stvarati značajne projekte koji rješavaju stvarne probleme. Moje putovanje u tehnologiji odvelo me je u različite dijelove svijeta, što je uveliko uticalo na moju perspektivu i pristup razvoju.",
+    en: "Hi, I'm an 18-year-old developer who's been coding since I was 10. My journey started with a fun beginner project—a simple HTML-based operating system. Over the years, I've expanded my skills into web development, mobile development, mobile game development with Godot and GDScript, and Arduino programming. I’ve competed in various programming competitions, securing 2nd place in the Sarajevo Cantonal competition, which has given me a solid competitive edge. I'm a quick learner who thrives on getting things done and building meaningful full-stack solutions.",
+    bs: "Zdravo, ja sam 18-godišnji developer koji kodira od svoje 10. godine. Moj put je počeo sa zabavnim početničkim projektom—jednostavnim operativnim sistemom zasnovanim na HTML-u. Tokom godina, proširio sam svoje vještine na web razvoj, mobilni razvoj, razvoj mobilnih igara sa Godotom i GDScriptom, kao i Arduino programiranje. Učestvovao sam u raznim programerskim takmičenjima, osvajajući 2. mjesto na Sarajevskom kantonalnom takmičenju, što mi je dalo solidnu konkurentsku prednost. Brzo učim i volim da dovodim stvari do kraja, stvarajući značajna full-stack rješenja.",
   },
   aboutText2: {
     en: "I specialize in building modern web applications using technologies like React, Next.js, and TypeScript. My goal is to create intuitive, accessible, and performant experiences that delight users.",
     bs: "Specijaliziran sam za izgradnju modernih web aplikacija koristeći tehnologije poput React-a, Next.js-a i TypeScript-a. Moj cilj je stvoriti intuitivna, pristupačna i efikasna iskustva koja oduševljavaju korisnike.",
   },
   aboutText3: {
-    en: "When I'm not coding, you can find me exploring new places, reading, or experimenting with new technologies.",
-    bs: "Kada ne kodiram, možete me naći kako istražujem nova mjesta, čitam ili eksperimentiram s novim tehnologijama.",
+    en: "When I'm not coding, you can find me reading, researching, or experimenting with new technologies.",
+    bs: "Kada ne kodiram, možete me naći kako čitam, istražujem ili eksperimentiram s novim tehnologijama.",
   },
   skills: {
     en: "Skills",
@@ -92,7 +92,7 @@ const translations: Translations = {
   },
   contactSubheading: {
     en: "Have a question or want to work together? Feel free to reach out!",
-    bs: "Imate pitanje ili želite raditi zajedno? Slobodno me kontaktirajte!",
+    bs: "Imate pitanje ili želite raditi sa mnom? Slobodno me kontaktirajte!",
   },
   name: {
     en: "Name",

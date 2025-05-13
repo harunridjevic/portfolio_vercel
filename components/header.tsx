@@ -47,7 +47,7 @@ export default function Header() {
     >
       <div className="container flex items-center justify-between h-16 px-4 md:px-6">
         <Link href="/" className="font-bold text-xl flex items-center gap-2">
-          <span className="text-primary">Portfolio</span>
+          <span className="text-primary">Harun Riđević</span>
         </Link>
 
         <nav className="hidden md:flex items-center gap-6">
@@ -91,7 +91,7 @@ export default function Header() {
 
           <Button variant="outline" size="sm" asChild>
             <Link
-              href="https://github.com"
+              href="https://github.com/harunridjevic"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2"
