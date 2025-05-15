@@ -81,7 +81,7 @@ export default function Hero() {
         </div>
       )}
 
-      <div className="container px-4 md:px-6 z-10 -translate-y-10 md:translate-y-0">
+      <div className="container px-4 md:px-6 z-10 -translate-y-20 md:translate-y-0">
         <div className="max-w-3xl mx-auto text-center">
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
             <span className="text-primary">{t("hello")}</span> <span className="gradient-text">Harun Riđević</span>
