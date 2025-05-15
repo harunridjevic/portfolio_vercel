@@ -98,7 +98,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 -ml-4 animate-bounce -translate-y-14 md:translate-y-0">
+      <div className="absolute bottom-24 md:bottom-16 left-1/2 transform -translate-x-1/2 -ml-4 animate-bounce -translate-y-14 md:translate-y-0">
         <Button variant="ghost" size="icon" onClick={scrollToProjects}>
           <ArrowDown className="h-6 w-6" />
           <span className="sr-only">Scroll down</span>
