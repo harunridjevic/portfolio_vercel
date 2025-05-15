@@ -28,7 +28,7 @@ export default function SuperDetailedWorldMap() {
   const [projects, setProjects] = useState<Project[]>([])
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
   const [hoveredProject, setHoveredProject] = useState<Project | null>(null)
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 }) // Track mouse position
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
   const { theme } = useTheme()
   const { t } = useTranslation()
   const isDark = theme === "dark"
@@ -144,19 +144,15 @@ export default function SuperDetailedWorldMap() {
 
   const handleScrollLock = (isOpen: boolean) => {
     if (isOpen) {
-      // Lock body scroll and save the scroll position before modal opens
       document.body.style.overflow = "hidden"
       const scrollPosition = window.pageYOffset
       document.body.style.position = "fixed"
-      document.body.style.top = `-${scrollPosition}px` // Save the current scroll position
+      document.body.style.top = `-${scrollPosition}px`
     } else {
-      // Restore scroll and clean up after modal closes
       const scrollPosition = document.body.style.top
       document.body.style.overflow = "auto"
       document.body.style.position = ""
       document.body.style.top = ""
-      
-      // Use the saved scroll position to scroll back to the correct spot
       if (scrollPosition) {
         window.scrollTo(0, parseInt(scrollPosition, 10) * -1)
       }
@@ -175,22 +171,10 @@ export default function SuperDetailedWorldMap() {
   }
 
   return (
-    <div className="relative w-full max-w-5xl mx-auto rounded-xl overflow-hidden border shadow-sm">
+    <div className="relative w-full max-w-7xl mx-auto rounded-xl overflow-hidden border shadow-sm">
       <div className={`relative aspect-[2/1] ${isDark ? "bg-gray-900" : "bg-blue-50"}`}>
-        {/* Background Map Image */}
-        <img
-          src="map.png"
-          alt="World Map"
-          className="absolute inset-0 w-full h-full object-cover z-0"
-        />
-
-        {/* SVG Grid + Markers */}
-        <svg
-          viewBox="0 0 1000 500"
-          className="absolute inset-0 w-full h-full z-10"
-          preserveAspectRatio="xMidYMid meet"
-        >
-          {/* Grid lines */}
+        <img src="map.png" alt="World Map" className="absolute inset-0 w-full h-full object-cover z-0" />
+        <svg viewBox="0 0 1000 500" className="absolute inset-0 w-full h-full z-10" preserveAspectRatio="xMidYMid meet">
           <g stroke={isDark ? "#1f2937" : "#dbeafe"} strokeWidth="0.5">
             {Array.from({ length: 18 }).map((_, i) => (
               <line key={`lat-${i}`} x1="0" y1={(i + 1) * 25} x2="1000" y2={(i + 1) * 25} />
@@ -200,7 +184,6 @@ export default function SuperDetailedWorldMap() {
             ))}
           </g>
 
-          {/* Markers */}
           {projects.map((project) => {
             const { x, y } = projectToSvgCoords(project.location.lat, project.location.lng)
             return (
@@ -213,36 +196,30 @@ export default function SuperDetailedWorldMap() {
                 fill="red"
                 stroke="white"
                 strokeWidth="1.5"
-                onClick={() => setSelectedProject(project)} // Click to select the project
+                onClick={() => setSelectedProject(project)}
                 onMouseEnter={(e) => {
                   setHoveredProject(project)
                   const svg = e.currentTarget.ownerSVGElement!.getBoundingClientRect()
-                  setMousePos({
-                    x: e.clientX - svg.left,
-                    y: e.clientY - svg.top,
-                  })
+                  setMousePos({ x: e.clientX - svg.left, y: e.clientY - svg.top })
                 }}
                 onMouseLeave={() => setHoveredProject(null)}
               />
             )
           })}
         </svg>
-      </div>
 
-      {/* Map Legend (Hidden on Mobile) */}
-      <div
-        className={`absolute bottom-4 left-4 z-20 ${
-          isDark ? "bg-gray-800/80" : "bg-white/80"
-        } backdrop-blur-sm p-3 rounded-lg shadow-sm hidden md:block`}
-      >
-        <div className="text-sm font-medium mb-2">{t("projectLocations")}</div>
-        <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full bg-red-500"></div>
-          <span className="text-xs text-muted-foreground">{t("githubProjects")}</span>
+        {/* Legend on the map */}
+        <div
+          className={`absolute bottom-4 left-4 z-20 ${isDark ? "bg-gray-800/80" : "bg-white/80"} backdrop-blur-sm p-3 rounded-lg shadow-sm hidden md:flex flex-col`}
+        >
+          <div className="text-sm font-medium mb-2">{t("projectLocations")}</div>
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded-full bg-red-500"></div>
+            <span className="text-xs text-muted-foreground">{t("githubProjects")}</span>
+          </div>
         </div>
       </div>
 
-      {/* Tooltip for hovered project */}
       {hoveredProject && (
         <div
           className={`absolute z-20 pointer-events-none text-xs px-2 py-1 rounded shadow-md ${
@@ -259,73 +236,105 @@ export default function SuperDetailedWorldMap() {
         </div>
       )}
 
-      {/* Modal */}
       {selectedProject && (
-  <Dialog open={true} onOpenChange={() => setSelectedProject(null)}>
-    <DialogContent className="max-w-2xl w-full p-6 sm:p-8 rounded-xl">
-      <DialogTitle className="text-2xl font-bold mb-2">
-        {selectedProject.name}
-      </DialogTitle>
-
-      <p className="text-sm text-muted-foreground mb-4">
-        {selectedProject.location.city}, {selectedProject.location.country}
-      </p>
-
-      {selectedProject.screenshot && (
-        <img
-          src={selectedProject.screenshot}
-          alt={`Screenshot of ${selectedProject.name}`}
-          className="w-full max-h-[300px] object-cover rounded-lg border mb-4"
-        />
+        <Dialog open={true} onOpenChange={() => setSelectedProject(null)}>
+          <DialogContent className="max-w-2xl w-full p-6 sm:p-8 rounded-xl">
+            <DialogTitle className="text-2xl font-bold mb-2">{selectedProject.name}</DialogTitle>
+            <p className="text-sm text-muted-foreground mb-4">
+              {selectedProject.location.city}, {selectedProject.location.country}
+            </p>
+            {selectedProject.screenshot && (
+              <img
+                src={selectedProject.screenshot}
+                alt={`Screenshot of ${selectedProject.name}`}
+                className="w-full max-h-[300px] object-cover rounded-lg border mb-4"
+              />
+            )}
+            <p className="text-base leading-relaxed mb-4">{selectedProject.description}</p>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              {selectedProject.homepage?.trim() && (
+                <a
+                  href={selectedProject.homepage}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm font-medium text-blue-600 hover:underline"
+                >
+                  🌐 Visit Project
+                </a>
+              )}
+              <a
+                href={selectedProject.html_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm font-medium text-gray-500 hover:text-gray-800 dark:hover:text-gray-300"
+              >
+                🔗 View on GitHub
+              </a>
+            </div>
+          </DialogContent>
+        </Dialog>
       )}
 
-      <p className="text-base leading-relaxed mb-4">
-        {selectedProject.description}
-      </p>
-
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-        {selectedProject.homepage?.trim() && (
-          <a
-            href={selectedProject.homepage}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm font-medium text-blue-600 hover:underline"
-          >
-            🌐 Visit Project
-          </a>
-        )}
-        <a
-          href={selectedProject.html_url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-sm font-medium text-gray-500 hover:text-gray-800 dark:hover:text-gray-300"
-        >
-          🔗 View on GitHub
-        </a>
-      </div>
-    </DialogContent>
-  </Dialog>
-)}
-
-
-
-      {/* List of projects for mobile */}
-      <div className="md:hidden mt-8">
+      {/* Mobile Project List */}
+      <div className="md:hidden mt-8 px-4">
         <h3 className="text-xl font-bold text-center mb-4">{t("Projects")}</h3>
         <ul className="space-y-4">
           {projects.map((project) => (
             <li key={project.id}>
               <div
-                className={`block p-4 rounded-lg shadow-md ${isDark ? "bg-gray-800 text-white" : "bg-white text-black"} 
-                transition-transform transform active:scale-95`}  // Press animation effect
-                onClick={() => setSelectedProject(project)} // Modal trigger on click
+                className={`flex items-center gap-4 p-4 rounded-lg shadow-md ${
+                  isDark ? "bg-gray-800 text-white" : "bg-white text-black"
+                } transition-transform transform active:scale-95 cursor-pointer`}
+                onClick={() => setSelectedProject(project)}
               >
-                <div className="font-semibold">{project.name}</div>
-                <div className="text-sm">{project.description}</div>
+                {project.screenshot ? (
+                  <img
+                    src={project.screenshot}
+                    alt={`${project.name} thumbnail`}
+                    className="w-16 h-16 object-cover rounded-md border"
+                  />
+                ) : (
+                  <div className="w-16 h-16 bg-gray-300 dark:bg-gray-700 rounded-md flex items-center justify-center text-xs text-gray-600 dark:text-gray-300">
+                    No Image
+                  </div>
+                )}
+                <div className="flex-1">
+                  <div className="font-semibold">{project.name}</div>
+                  <div className="text-sm text-muted-foreground">{project.description}</div>
+                </div>
               </div>
             </li>
           ))}
         </ul>
+      </div>
+
+      {/* Desktop Project Grid */}
+      <div className="hidden md:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-8 p-4">
+        {projects.map((project) => (
+          <div
+            key={project.id}
+            className={`border rounded-lg overflow-hidden shadow-md cursor-pointer transition-transform transform active:scale-95 ${
+              isDark ? "bg-gray-900 border-gray-700" : "bg-white border-gray-200"
+            }`}
+            onClick={() => setSelectedProject(project)}
+          >
+            {project.screenshot ? (
+              <img
+                src={project.screenshot}
+                alt={`${project.name} screenshot`}
+                className="w-full h-40 object-cover"
+              />
+            ) : (
+              <div className="w-full h-40 bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300">
+                No Image
+              </div>
+            )}
+            <div className="p-4">
+              <h4 className="font-semibold mb-2">{project.name}</h4>
+              <p className="text-sm text-muted-foreground">{project.description}</p>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   )

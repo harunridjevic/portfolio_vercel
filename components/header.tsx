@@ -3,25 +3,28 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Menu, X, Github, Moon, Sun, Globe } from "lucide-react"
+import { Github, Moon, Sun, Globe, Menu, X } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useTheme } from "next-themes"
 import { useTranslation } from "./language-context"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 export default function Header() {
-  const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [mounted, setMounted] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
   const { theme, setTheme } = useTheme()
   const { language, setLanguage, t } = useTranslation()
 
-  // Mount check
   useEffect(() => {
     setMounted(true)
   }, [])
 
-  // Scroll effect
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 10)
@@ -30,10 +33,14 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  const toggleMenu = () => setIsOpen(!isOpen)
-  const closeMenu = () => setIsOpen(false)
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = ""
+    }
+  }, [menuOpen])
 
-  // Toggle theme function
   const toggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark")
   }
@@ -42,14 +49,17 @@ export default function Header() {
     <header
       className={cn(
         "fixed top-0 w-full z-50 transition-all duration-300",
-        scrolled ? "bg-white/90 backdrop-blur-md shadow-sm dark:bg-gray-900/90" : "bg-transparent dark:bg-transparent",
+        scrolled
+          ? "bg-white/90 backdrop-blur-md shadow-sm dark:bg-gray-900/90"
+          : "bg-transparent dark:bg-transparent"
       )}
     >
       <div className="container flex items-center justify-between h-16 px-4 md:px-6">
-        <Link href="/" className="font-bold text-xl flex items-center gap-2">
+        <Link href="/" className="font-bold text-xl flex items-center gap-2" onClick={() => setMenuOpen(false)}>
           <span className="text-primary">Harun Riđević</span>
         </Link>
 
+        {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-6">
           <Link href="/#projects" className="text-sm font-medium hover:text-primary transition-colors">
             {t("projects")}
@@ -61,7 +71,6 @@ export default function Header() {
             {t("contact")}
           </Link>
 
-          {/* Simple theme toggle */}
           {mounted && (
             <Button variant="outline" size="icon" onClick={toggleTheme} className="h-9 w-9">
               {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
@@ -69,7 +78,6 @@ export default function Header() {
             </Button>
           )}
 
-          {/* Language toggle */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="icon" className="h-9 w-9">
@@ -102,67 +110,90 @@ export default function Header() {
           </Button>
         </nav>
 
-        <div className="flex items-center gap-2 md:hidden">
-          {/* Theme toggle for mobile */}
+        {/* Mobile nav buttons + hamburger */}
+        <div className="md:hidden flex items-center gap-2">
           {mounted && (
-            <Button variant="ghost" size="icon" onClick={toggleTheme}>
+            <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Toggle theme">
               {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-              <span className="sr-only">Toggle theme</span>
             </Button>
           )}
 
-          {/* Language toggle for mobile */}
-          <Button variant="ghost" size="icon" onClick={() => setLanguage(language === "en" ? "bs" : "en")}>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setLanguage(language === "en" ? "bs" : "en")}
+            aria-label="Change language"
+          >
             <Globe className="h-5 w-5" />
-            <span className="sr-only">Change language</span>
           </Button>
 
-          {/* Menu toggle */}
-          <Button variant="ghost" size="icon" onClick={toggleMenu}>
+          {/* Hamburger menu */}
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
             <Menu className="h-6 w-6" />
-            <span className="sr-only">Toggle menu</span>
           </Button>
         </div>
       </div>
 
-      {/* Mobile menu */}
-      <div
-        className={cn(
-          "fixed inset-0 bg-white dark:bg-gray-900 z-50 transform transition-transform duration-300 md:hidden",
-          isOpen ? "translate-x-0" : "translate-x-full",
-        )}
+      {menuOpen && (
+  <div
+    aria-modal="true"
+    role="dialog"
+    className="fixed inset-0 bg-white dark:bg-gray-900 flex flex-col items-center justify-center gap-12 p-10 text-2xl font-semibold z-50 relative"
+  >
+    
+
+    <Link href="/#projects" className="hover:text-primary transition-colors" onClick={() => setMenuOpen(false)}>
+      {t("projects")}
+    </Link>
+    <Link href="/#about" className="hover:text-primary transition-colors" onClick={() => setMenuOpen(false)}>
+      {t("about")}
+    </Link>
+    <Link href="/#contact" className="hover:text-primary transition-colors" onClick={() => setMenuOpen(false)}>
+      {t("contact")}
+    </Link>
+
+    {mounted && (
+      <Button
+        variant="outline"
+        size="icon"
+        onClick={toggleTheme}
+        className="h-12 w-12"
+        aria-label="Toggle theme"
       >
-        <div className="flex flex-col h-full p-6">
-          <div className="flex justify-end">
-            <Button variant="ghost" size="icon" onClick={closeMenu}>
-              <X className="h-6 w-6" />
-              <span className="sr-only">Close menu</span>
-            </Button>
-          </div>
-          <nav className="flex flex-col items-center justify-center flex-1 gap-8">
-            <Link href="/#projects" className="text-lg font-medium" onClick={closeMenu}>
-              {t("projects")}
-            </Link>
-            <Link href="/#about" className="text-lg font-medium" onClick={closeMenu}>
-              {t("about")}
-            </Link>
-            <Link href="/#contact" className="text-lg font-medium" onClick={closeMenu}>
-              {t("contact")}
-            </Link>
-            <Button variant="outline" asChild>
-              <Link
-                href="https://github.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2"
-              >
-                <Github className="h-4 w-4" />
-                <span>GitHub</span>
-              </Link>
-            </Button>
-          </nav>
-        </div>
-      </div>
+        {theme === "dark" ? <Sun className="h-6 w-6" /> : <Moon className="h-6 w-6" />}
+      </Button>
+    )}
+
+    <Button
+      variant="outline"
+      size="icon"
+      onClick={() => setLanguage(language === "en" ? "bs" : "en")}
+      className="h-12 w-12"
+      aria-label="Change language"
+    >
+      <Globe className="h-6 w-6" />
+    </Button>
+
+    <Button variant="outline" size="sm" asChild>
+      <Link
+        href="https://github.com/harunridjevic"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-3"
+        onClick={() => setMenuOpen(false)}
+      >
+        <Github className="h-6 w-6" />
+        <span>GitHub</span>
+      </Link>
+    </Button>
+  </div>
+)}
+
     </header>
   )
 }

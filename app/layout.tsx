@@ -12,7 +12,7 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata = {
   title: "Portfolio | Projects Around the World",
   description: "A showcase of my projects from around the world",
-    generator: 'v0.dev'
+  generator: "v0.dev",
 }
 
 export default function RootLayout({
@@ -23,15 +23,16 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
-      <body className={`${inter.className} antialiased`}>
+      <body
+        className={``}
+      >
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <LanguageProvider>
             <ProjectProvider>
-              <div className="flex min-h-screen flex-col">
-                <Header />
-                <div className="flex-1">{children}</div>
-                <Footer />
-              </div>
+              {/* No need to wrap with another flex container here */}
+              <Header />
+              <main className="min-h-screen">{children}</main>
+              <Footer />
             </ProjectProvider>
           </LanguageProvider>
         </ThemeProvider>

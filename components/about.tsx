@@ -43,7 +43,7 @@ export default function About() {
 
             {/* Decorative Circles */}
             <div className="absolute -top-6 -left-6 w-12 h-12 bg-primary/10 rounded-full" />
-            <div className="absolute -bottom-6 -right-6 w-16 h-16 bg-primary/20 rounded-full" />
+            <div className="absolute -bottom-6 -right-2 w-16 h-16 bg-primary/20 rounded-full" />
           </div>
 
           {/* Text Content */}
