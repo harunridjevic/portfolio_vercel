@@ -276,7 +276,7 @@ export default function SuperDetailedWorldMap() {
       )}
 
       {/* Mobile Project List */}
-      <div className="md:hidden mt-8 px-4">
+      <div className="md:hidden mt-8 px-4 mb-4">
         <h3 className="text-xl font-bold text-center mb-4">{t("Projects")}</h3>
         <ul className="space-y-4">
           {projects.map((project) => (
