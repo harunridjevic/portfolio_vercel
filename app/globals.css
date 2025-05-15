@@ -70,12 +70,12 @@
 
 @layer utilities {
   .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-500;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-green-500;
   }
 
   /* Dark mode gradient text */
   .dark .gradient-text {
-    @apply bg-gradient-to-r from-blue-400 to-purple-400;
+    @apply bg-gradient-to-r from-blue-400 to-green-400;
   }
 }
 
