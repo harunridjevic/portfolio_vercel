@@ -29,6 +29,11 @@ export default function About() {
               }`}
             >
               <div className="w-full h-full rounded-xl overflow-hidden relative">
+                <img
+                  src="/logo.jpg"
+                  alt="User uploaded"
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
                 <div
                   className={`absolute inset-0 flex items-center justify-center text-primary font-medium ${
                     isDark
@@ -36,9 +41,9 @@ export default function About() {
                       : "bg-gradient-to-br from-primary/10 to-primary/30"
                   }`}
                 >
-                  Your Photo Here
                 </div>
               </div>
+
             </div>
 
             {/* Decorative Circles */}
