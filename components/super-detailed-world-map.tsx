@@ -276,66 +276,68 @@ export default function SuperDetailedWorldMap() {
       )}
 
       {/* Mobile Project List */}
-      <div className="md:hidden mt-8 px-4 mb-4">
-        <h3 className="text-xl font-bold text-center mb-4">{t("Projects")}</h3>
-        <ul className="space-y-4">
-          {projects.map((project) => (
-            <li key={project.id}>
-              <div
-                className={`flex items-center gap-4 p-4 rounded-lg shadow-md ${
-                  isDark ? "bg-gray-800 text-white" : "bg-white text-black"
-                } transition-transform transform active:scale-95 cursor-pointer`}
-                onClick={() => setSelectedProject(project)}
-              >
-                {project.screenshot ? (
-                  <img
-                    src={project.screenshot}
-                    alt={`${project.name} thumbnail`}
-                    className="w-16 h-16 object-cover rounded-md border"
-                  />
-                ) : (
-                  <div className="w-16 h-16 bg-gray-300 dark:bg-gray-700 rounded-md flex items-center justify-center text-xs text-gray-600 dark:text-gray-300">
-                    No Image
-                  </div>
-                )}
-                <div className="flex-1">
-                  <div className="font-semibold">{project.name}</div>
-                  <div className="text-sm text-muted-foreground">{project.description}</div>
-                </div>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      {/* Desktop Project Grid */}
-      <div className="hidden md:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-8 p-4">
-        {projects.map((project) => (
-          <div
-            key={project.id}
-            className={`border rounded-lg overflow-hidden shadow-md cursor-pointer transition-transform transform active:scale-95 ${
-              isDark ? "bg-gray-900 border-gray-700" : "bg-white border-gray-200"
-            }`}
-            onClick={() => setSelectedProject(project)}
-          >
-            {project.screenshot ? (
-              <img
-                src={project.screenshot}
-                alt={`${project.name} screenshot`}
-                className="w-full h-40 object-cover"
-              />
-            ) : (
-              <div className="w-full h-40 bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300">
-                No Image
-              </div>
-            )}
-            <div className="p-4">
-              <h4 className="font-semibold mb-2">{project.name}</h4>
-              <p className="text-sm text-muted-foreground">{project.description}</p>
+<div className="md:hidden mt-8 px-4 mb-4">
+  <h3 className="text-xl font-bold text-center mb-4">{t("Projects")}</h3>
+  <ul className="space-y-4">
+    {projects.map((project) => (
+      <li key={project.id}>
+        <div
+          className={`flex items-center gap-4 p-4 rounded-lg shadow-md ${
+            isDark ? "bg-gray-800 text-white" : "bg-white text-black"
+          } transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl active:scale-95 cursor-pointer`}
+          onClick={() => setSelectedProject(project)}
+        >
+          {project.screenshot ? (
+            <img
+              src={project.screenshot}
+              alt={`${project.name} thumbnail`}
+              className="w-16 h-16 object-cover rounded-md border"
+            />
+          ) : (
+            <div className="w-16 h-16 bg-gray-300 dark:bg-gray-700 rounded-md flex items-center justify-center text-xs text-gray-600 dark:text-gray-300">
+              No Image
             </div>
+          )}
+          <div className="flex-1">
+            <div className="font-semibold">{project.name}</div>
+            <div className="text-sm text-muted-foreground">{project.description}</div>
           </div>
-        ))}
+        </div>
+      </li>
+    ))}
+  </ul>
+</div>
+
+{/* Desktop Project Grid */}
+<div className="hidden md:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-8 p-4">
+  {projects.map((project) => (
+    <div
+      key={project.id}
+      className={`border rounded-lg overflow-hidden shadow-md cursor-pointer transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl active:scale-95 ${
+        isDark ? "bg-gray-900 border-gray-700" : "bg-white border-gray-200"
+      }`}
+      onClick={() => setSelectedProject(project)}
+    >
+      {project.screenshot ? (
+        <img
+          src={project.screenshot}
+          alt={`${project.name} screenshot`}
+          className="w-full h-40 object-cover"
+        />
+      ) : (
+        <div className="w-full h-40 bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300">
+          No Image
+        </div>
+      )}
+      <div className="p-4">
+        <h4 className="font-semibold mb-2">{project.name}</h4>
+        <p className="text-sm text-muted-foreground">{project.description}</p>
       </div>
+    </div>
+  ))}
+</div>
+
+
     </div>
   )
 }

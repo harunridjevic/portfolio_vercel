@@ -10,7 +10,7 @@ import { LanguageProvider } from "@/components/language-context"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
-  title: "Portfolio | Projects Around the World",
+  title: "Harun Riđević Portfolio",
   description: "A showcase of my projects from around the world",
   generator: "v0.dev",
 }
@@ -22,7 +22,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head />
+      <head>
+        <link rel="icon" type="image/webp" href="/favicon.webp" />
+      </head>
       <body
         className={``}
       >

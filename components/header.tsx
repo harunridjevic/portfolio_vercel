@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Github, Moon, Sun, Globe, Menu, X } from "lucide-react"
@@ -13,6 +13,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { motion, useInView } from "framer-motion"
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false)
@@ -20,6 +21,9 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
   const { theme, setTheme } = useTheme()
   const { language, setLanguage, t } = useTranslation()
+
+  const headerRef = useRef(null)
+  const isInView = useInView(headerRef, { once: true })
 
   useEffect(() => {
     setMounted(true)
@@ -34,11 +38,7 @@ export default function Header() {
   }, [])
 
   useEffect(() => {
-    if (menuOpen) {
-      document.body.style.overflow = "hidden"
-    } else {
-      document.body.style.overflow = ""
-    }
+    document.body.style.overflow = menuOpen ? "hidden" : ""
   }, [menuOpen])
 
   const toggleTheme = () => {
@@ -46,7 +46,11 @@ export default function Header() {
   }
 
   return (
-    <header
+    <motion.header
+      ref={headerRef}
+      initial={{ y: -50, opacity: 0 }}
+      animate={isInView ? { y: 0, opacity: 1 } : {}}
+      transition={{ duration: 0.6, ease: "easeOut" }}
       className={cn(
         "fixed top-0 w-full z-50 transition-all duration-300",
         scrolled
@@ -127,73 +131,69 @@ export default function Header() {
             <Globe className="h-5 w-5" />
           </Button>
 
-          {/* Hamburger menu */}
           <Button
             variant="ghost"
             size="icon"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             onClick={() => setMenuOpen(!menuOpen)}
           >
-            <Menu className="h-6 w-6" />
+            {menuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </Button>
         </div>
       </div>
 
       {menuOpen && (
-  <div
-    aria-modal="true"
-    role="dialog"
-    className="fixed inset-0 bg-white dark:bg-gray-900 flex flex-col items-center justify-center gap-12 p-10 text-2xl font-semibold z-50 relative"
-  >
-    
+        <div
+          aria-modal="true"
+          role="dialog"
+          className="fixed inset-0 bg-white dark:bg-gray-900 flex flex-col items-center justify-center gap-12 p-10 text-2xl font-semibold z-50 relative"
+        >
+          <Link href="/#projects" className="hover:text-primary transition-colors" onClick={() => setMenuOpen(false)}>
+            {t("projects")}
+          </Link>
+          <Link href="/#about" className="hover:text-primary transition-colors" onClick={() => setMenuOpen(false)}>
+            {t("about")}
+          </Link>
+          <Link href="/#contact" className="hover:text-primary transition-colors" onClick={() => setMenuOpen(false)}>
+            {t("contact")}
+          </Link>
 
-    <Link href="/#projects" className="hover:text-primary transition-colors" onClick={() => setMenuOpen(false)}>
-      {t("projects")}
-    </Link>
-    <Link href="/#about" className="hover:text-primary transition-colors" onClick={() => setMenuOpen(false)}>
-      {t("about")}
-    </Link>
-    <Link href="/#contact" className="hover:text-primary transition-colors" onClick={() => setMenuOpen(false)}>
-      {t("contact")}
-    </Link>
+          {mounted && (
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={toggleTheme}
+              className="h-12 w-12"
+              aria-label="Toggle theme"
+            >
+              {theme === "dark" ? <Sun className="h-6 w-6" /> : <Moon className="h-6 w-6" />}
+            </Button>
+          )}
 
-    {mounted && (
-      <Button
-        variant="outline"
-        size="icon"
-        onClick={toggleTheme}
-        className="h-12 w-12"
-        aria-label="Toggle theme"
-      >
-        {theme === "dark" ? <Sun className="h-6 w-6" /> : <Moon className="h-6 w-6" />}
-      </Button>
-    )}
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => setLanguage(language === "en" ? "bs" : "en")}
+            className="h-12 w-12"
+            aria-label="Change language"
+          >
+            <Globe className="h-6 w-6" />
+          </Button>
 
-    <Button
-      variant="outline"
-      size="icon"
-      onClick={() => setLanguage(language === "en" ? "bs" : "en")}
-      className="h-12 w-12"
-      aria-label="Change language"
-    >
-      <Globe className="h-6 w-6" />
-    </Button>
-
-    <Button variant="outline" size="sm" asChild>
-      <Link
-        href="https://github.com/harunridjevic"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-center gap-3"
-        onClick={() => setMenuOpen(false)}
-      >
-        <Github className="h-6 w-6" />
-        <span>GitHub</span>
-      </Link>
-    </Button>
-  </div>
-)}
-
-    </header>
+          <Button variant="outline" size="sm" asChild>
+            <Link
+              href="https://github.com/harunridjevic"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3"
+              onClick={() => setMenuOpen(false)}
+            >
+              <Github className="h-6 w-6" />
+              <span>GitHub</span>
+            </Link>
+          </Button>
+        </div>
+      )}
+    </motion.header>
   )
 }

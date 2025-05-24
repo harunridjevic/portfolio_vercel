@@ -164,6 +164,12 @@ const translations: Translations = {
     en: "Bosnian",
     bs: "Bosanski",
   },
+  // Tech Stack
+  techStackTitle: {
+    en: "My Tech Stack",
+    bs: "Moj Tech Stack",
+  },
+
 }
 
 type LanguageContextType = {
